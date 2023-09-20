@@ -1,0 +1,226 @@
+openapi: '3.0.2'
+
+info:
+  title: API Title
+  description: Sample server for Course and lecturer App
+  termsOfService: http://www.example.com/terms/
+  contact:
+    name: API Support
+    url: http://www.example.com/support
+    email: support@example.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html  
+  version: '1.0'
+servers:
+  - url: http://localhost:8080/vle/api/v1
+
+paths:
+  /AddStaff:
+    post:
+     summary: Add a new staff member
+     description: create staff member with name, staff number, title, office number and courses
+     operationId: createStaff
+     requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Staff"
+     responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: Staff has been saved successfully
+                type: string
+        default:
+          $ref: "#/components/responses/ErrorResponse"  
+
+  /getAllstaff:
+    get:
+      summary: Get All Staff
+      operationId: getAllStaff
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: Successfully Received All Course
+                type: array
+                items:
+                  $ref: "#/components/schemas/Staff"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+
+  /putStaff:
+    put: 
+     summary: Update existing Staff member information
+     operationId: updateLecturer
+     parameters:
+       - name: lecturerId
+         in: path
+         description: The unique lecturer id
+         required: true
+         schema:
+            type: string
+     requestBody:
+        description: The lecturer details to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Staff'
+     responses:
+        '200':
+          description: Lecturer is updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Staff'
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+
+  /getStaffBystaffNumber:
+    get:
+      summary: Get Staff By staff number
+      operationId: getStaffBystaffNumber
+      parameters:
+        - name: code
+          in: query
+          description: Get Staff By Staff Number
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: Successfully Received Staff
+                $ref: "#/components/schemas/Staff"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+
+  /deleteStaffByStaffNumber:
+    delete: 
+     summary: Delete Staff by staff number
+     operationId: deleteStaffBystaffNumber
+     parameters:
+       - name: code
+         in: query
+         description: Delete Staff By Staff Number  
+         required: true 
+         schema:
+           type: string
+     responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: Successfully Removed Staff
+                $ref: "#/components/schemas/Staff"
+        default:
+          $ref: "#/components/responses/ErrorResponse" 
+
+  /getallStaffByCourse:
+    get:
+      summary: Get Staff with filtering for Courses
+      parameters: 
+        - name: name
+          in: query 
+          description: Filter staff by courses
+          required: false
+          schema:
+            type: string
+        - name: userId # Name of the parameter
+          in: path # Location of the parameter (path)
+          required: true # Whether the parameter is required
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: Successfully returned Staff
+                $ref: "#/components/schemas/Staff"
+        default:
+          $ref: "#/components/responses/ErrorResponse"     
+             
+components:
+  schemas:  
+     Course:
+      type: object
+      description: Represents a course entry
+      properties:
+        courseName:
+          type: string
+          example: Database Programming
+        courseCode:
+          type: string
+          example: DPG6275
+        courseNqfLevel:
+          type: integer
+          minLength: 1
+          maxLength: 2
+          description: NQF level Framework
+          enum: 
+            - 1 
+            - 2 
+            - 3 
+            - 4 
+            - 5 
+            - 6 
+            - 7 
+            - 8  
+            - 9 
+            - 10
+     Office:
+       type: object
+       description: Represents an office entry
+       properties:
+         officeId:
+           type: number
+           description: Unique ID of the office
+
+     Staff:
+       type: object
+       description: Essential components to identify lecturer
+       properties:
+          staffNumber:
+           type: string
+           description: Staff identification number
+           readOnly: true
+          staffName:
+           type: string
+           description: staff member name
+           minLength: 2
+           maxLength: 100
+           example: Robert Mugabe 
+          staffTitle:
+           type: string
+           description: Title held by staff member
+           minLength: 2
+           maxLength: 100
+           example: Senior Lecturer 
+          Course: 
+           $ref: "#/components/schemas/Course"
+          Office:
+           $ref: "#/components/schemas/Office" 
+  responses:
+    ErrorResponse:
+      description: The specified resource was not found.
+    Error500Response:
+      description: Internal Server Crushed
+    Error404Response:
+      description: Course not Found
+    Error403Response:
+      description: Access Denied 
+           
+
+
