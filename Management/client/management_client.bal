@@ -240,7 +240,6 @@ function Menu() returns string|error {
         }
         return addedBook;
     }
-}
 
 function createUser() returns string|error {
 
