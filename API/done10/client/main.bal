@@ -213,3 +213,24 @@ public function deleteLecturer(http:Client http, string staffNumber) returns err
         }
     }
 }
+
+public function retrieveLecturersByCourse(http:Client http, string courseCode) returns error? {
+   if (http is http:Client) {
+        Lecturer[] lecturers = check http->/lecturersByCourseCode(courseCode = courseCode);
+
+        foreach Lecturer item in lecturers {
+            io:println("--------------------------");
+            io:println("Lecturer name: ", item.staffName);
+        }
+        
+        io:println("--------------------------");
+        string exit = io:readln("Press 0 to go back: ");
+
+        if (exit == "0") {
+            error? mainResult = main();
+            if mainResult is error {
+                io:println("Error, You can't go back.");
+            }
+        }
+    } 
+} 
