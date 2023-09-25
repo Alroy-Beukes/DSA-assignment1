@@ -313,6 +313,24 @@ function removeBook() returns string|error {
     return removed;
 }
 
+function availableBook() returns string|error {
+
+        
+string books = check ep->availableBooks();
+
+    io:println(books);
+
+    string input = io:readln("\n\nEnter (1) to return to Exit: ");
+
+    if input == "1" {
+        return Login();
+    }
+    
+    return books;
+
+
+}
+
 function LocateBookByISBN() returns string|error {
 
 string  isbn = io:readln("Enter The Books ISBN: ");
