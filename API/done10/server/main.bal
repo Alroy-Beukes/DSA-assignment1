@@ -46,10 +46,6 @@ service /lecturerapp on new http:Listener(6100) {
         return string `${lecturer.staffName} updated successfully`;
     }
 
-    resource function get lecturerInfo(string staffNumber) returns Lecturer|string {
-    
-    }
-
    // table<Lecturer>  lecturers = table [];
 
     resource function delete deleteLecturerByStaffNumber(string staffNumber) returns string {
