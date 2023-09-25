@@ -284,3 +284,42 @@ function removeBook() returns string|error {
     return removed;
 }
 
+function borrowedBook() returns string|error {
+
+  io:println("Borrow a Book Menu");
+
+
+ string UserId  = io:readln("Enter User ID: ");
+ string ISBN = io:readln("Enter Books ISBN: ");
+
+    Borrowed_books borrowed = {
+        userId: UserId,
+        isbn: ISBN
+    };
+
+    Book book = {
+        title: "",
+        author_1: "",
+        author_2: "",
+        location: "",
+        isbn: ISBN,
+        status: "Borrowed"
+    };
+
+    // Executes a simple remote call.
+    
+    string|error borrowedBook = check ep->borrowBook(borrowed);
+    Book|error updateStatus = check ep->updateBook(book);
+
+
+    io:println(borrowedBook);
+
+    string input = io:readln("\n\nEnter (1) to return to Exit: ");
+
+    if input == "1" {
+        return Login();
+    }
+    
+    return borrowedBook;
+}
+
