@@ -1,6 +1,14 @@
 import ballerina/http;
 import ballerina/io;
 
+type Lecturer readonly & record {
+    string staffNumber;
+    string staffName;
+    string staffTitle?;
+    string officeNumber?;
+    [string, string, string][] courses;
+};
+
 
 service /lecturerapp on new http:Listener(6100) {
     resource function post createLecturer(Lecturer lecturer) returns string {
