@@ -269,6 +269,34 @@ function createUser() returns string|error {
     return addedUser;
 }
 
+function updateBook() returns Book|error{
+
+        string Title = io:readln("Enter Book Title...");
+        string Author = io:readln("Enter Authors Name...");
+        string Location = io:readln("Enter the Book's location in the library...");
+        string ISBN = io:readln("Enter the Book's isbn number...");
+        string Status = io:readln("Is the book available?...");
+        string Author2 = "";
+        string response = io:readln("Do you want to enter an additional author? (yes/no): ");
+
+        if (response == "yes") {
+            Author2 = io:readln("Enter the additional author's name: ");
+        }
+
+         Book book = {
+            title: Title,
+            author_1: Author,
+            author_2: Author2,
+            location: Location,
+            isbn: ISBN,
+            status: Status
+        };
+
+        Book updatedBook = check ep->updateBook(book);    
+
+        return updatedBook;
+}
+
 function removeBook() returns string|error {
 
     string isbn = io:readln("Enter The Books ISBN:");
