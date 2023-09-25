@@ -29,9 +29,18 @@ service /lecturerapp on new http:Listener(6100) {
     
     }
 
-    resource function delete deleteLecturerByStaffNumber(string staffNumber) returns string {
-    
+   // table<Lecturer>  lecturers = table [];
 
+    resource function delete deleteLecturerByStaffNumber(string staffNumber) returns string {
+
+        // Try to remove the lecturer by staff number
+        Lecturer? removedLecturer = lecturers.remove(staffNumber);
+
+        if (removedLecturer == null) {
+            return "Lecturer not found";
+        }
+
+        return string `${removedLecturer.staffName} deleted successfully`;
     }
 
     resource function get lecturersByCourseCode(string courseCode) returns Lecturer[] {
