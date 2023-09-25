@@ -5,6 +5,10 @@ listener grpc:Listener ep = new (9090);
 @grpc:Descriptor {value: MANAGEMENT_DESC}
 service "Management" on ep {
 
+    private table<Book> key(isbn) books;
+    private table<User> key(userId) users;
+    private table<Borrowed_books> key(isbn) borrowedBooks;
+
     remote function addBook(Book value) returns string|error {
     }
     remote function createUser(User value) returns User|error {
