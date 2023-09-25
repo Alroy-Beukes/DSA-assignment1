@@ -80,8 +80,20 @@ service "Management" on ep {
             return self.books.toString();
         }
     }
-    remote function availableBooks() returns string|error {
+       remote function availableBooks() returns string | error {
+    // Use an integrated query to filter books with status "yes"
+    Book[] availableBooks = from var book in self.books where book.status == "yes" select book;
+
+    if (availableBooks.length() == 0) {
+        return "No books available";
+    } else {
+        string availableBooksStr = "";
+        foreach var book in availableBooks {
+            availableBooksStr = availableBooksStr + book.toString() + "\n";
+        }
+        return availableBooksStr;
     }
+}
     remote function locateBook(string value) returns string|error {
     }
     remote function borrowBook(Borrowed_books book) returns string|error {
