@@ -43,3 +43,30 @@ public function main() returns error? {
     }
 }
 
+function createUser() returns string|error {
+
+    string studentID = uuid:createType1AsString();
+    string UserId = studentID;
+    string Name = io:readln("Enter User Name: ");
+    string  profile= io:readln("Enter Profile: ");
+    io:println("The student ID is " + UserId);
+
+    User theUser = {
+        userId :  UserId,
+        name : Name,
+        accountType: profile
+    };
+
+    string addedUser = check ep->createUser(theUser);
+
+    io:println(addedUser);
+
+    string input=io:readln("\n\nEnter (1) to return to Exit: ");
+
+    if input == "1" {
+        return Menu();
+    }
+
+    return addedUser;
+}
+
