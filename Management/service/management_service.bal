@@ -49,7 +49,24 @@ service "Management" on ep {
     }
     remote function locateBook(string value) returns string|error {
     }
-    remote function borrowBook(Borrowed_books value) returns string|error {
+    remote function borrowBook(Borrowed_books book) returns string|error {
+        // Check if the book exists in the library
+        Book? theBook = self.books[book.isbn];
+    
+        // Check if the user exists
+        if (self.users[book.userId] == ()) {
+            return "User with ID " + book.userId + " not found";
+        }
+    
+        // Check if the book exists
+        if (theBook == ()) {
+            return "Book with ISBN " + book.isbn + " not found";
+        }
+    
+        // Record the book as borrowed
+        self.borrowedBooks.add(book);
+    
+        return "Book with ISBN " + book.isbn + " was borrowed by user " + book.userId;
     }
 }
 
