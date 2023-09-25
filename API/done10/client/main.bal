@@ -105,3 +105,21 @@ public function main() returns error? {
         }
     }
 }
+
+function addCourses() returns [string, string, string][] {
+    [string, string, string][] courses = [];
+    
+    while (true) {
+        string courseName = io:readln("Enter your course name (or press Enter to stop adding courses): ");
+        if (courseName == "") {
+            break; // Stop adding courses if the user presses Enter
+        }
+
+        string courseCode = io:readln("Enter your course code: ");
+        string nqfLevel = io:readln("Enter your nqf level: ");
+        
+        courses.push([courseName, courseCode, nqfLevel]);
+    }
+    
+    return courses;
+}
