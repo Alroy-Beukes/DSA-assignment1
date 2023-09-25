@@ -94,8 +94,19 @@ service "Management" on ep {
         return availableBooksStr;
     }
 }
-    remote function locateBook(string value) returns string|error {
+
+     remote function locateBook(string isbn) returns string {
+        
+        Book? theBook = self.books[isbn];
+       
+        if theBook == () {
+            return  "There's no book with this isbn code.";
+
+        } else {
+            return "The book is located at "+theBook.location;
+        }
     }
+
     remote function borrowBook(Borrowed_books book) returns string|error {
         // Check if the book exists in the library
         Book? theBook = self.books[book.isbn];
