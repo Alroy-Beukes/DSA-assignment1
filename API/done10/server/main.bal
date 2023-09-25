@@ -20,8 +20,9 @@ service /lecturerapp on new http:Listener(6100) {
         
     }
 
-    resource function put updateLecturere(Lecturer lecturer) returns string {
-    
+    resource function put updateLecturer(Lecturer lecturer) returns string {
+        io:println(lecturer);
+        return string `${lecturer.staffName} updated successfully`;
     }
 
     resource function get lecturerInfo(string staffNumber) returns Lecturer|string {
