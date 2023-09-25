@@ -140,3 +140,18 @@ public function create(http:Client http, Lecturer lecturer) returns error? {
         }
     }
 }
+
+public function deleteLecturer(http:Client http, string staffNumber) returns error? {
+    if (http is http:Client) {
+        string message = check http->/deleteLecturerByStaffNumber.delete(staffNumber = staffNumber);
+        io:println(message);
+        io:println("--------------------------");
+        string exit = io:readln("Press 0 to go back: ");
+        if (exit == "0") {
+            error? mainResult = main();
+            if mainResult is error {
+                io:println("Error, You can't go back.");
+            }
+        }
+    }
+}
