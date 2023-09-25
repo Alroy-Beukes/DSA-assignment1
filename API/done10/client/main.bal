@@ -141,6 +141,64 @@ public function create(http:Client http, Lecturer lecturer) returns error? {
     }
 }
 
+public function getAll(http:Client http) returns error? {
+    if (http is http:Client) {
+        Lecturer[] lecturers = check http->/allLecturers;
+        foreach Lecturer item in lecturers {
+            io:println("--------------------------");
+            io:println("Lecturer name: ", item.staffName);
+        }
+
+        io:println("--------------------------");
+        string exit = io:readln("Press 0 to go back: ");
+
+        if (exit == "0") {
+            error? mainResult = main();
+            if mainResult is error {
+                io:println("Error, You can't go back.");
+            }
+        }
+    }
+}
+
+public function getLecturerByStaffNumber(http:Client http, string staffNumber) returns error? {
+    if (http is http:Client) {
+        Lecturer lecturer = check http->/lecturerInfo(staffNumber = staffNumber);
+        io:println("--------------------------");
+        io:println("Staff Number: ", lecturer.staffNumber);
+        io:println("Lecturer name: ", lecturer.staffName);
+        io:println("Lecturer title: ", lecturer.staffTitle);
+        io:println("Lecturer office number: ", lecturer.officeNumber);
+        io:println("Lecturer courses: ", lecturer.courses);
+        io:println("--------------------------");
+        string exit = io:readln("Press 0 to go back: ");
+
+        if (exit == "0") {
+            error? mainResult = main();
+            if mainResult is error {
+                io:println("Error, You can't go back.");
+            }
+        }
+    }
+}
+
+public function update(http:Client http, Lecturer lecturer, string staffNumber) returns error? {
+    if (http is http:Client) {
+        // Serialize the lecturer object to JSON
+        string message = lecturer.toString(); // Assuming a toString() function for your Lecturer record
+        message = check http->/updateLecturer.put(lecturer);
+        io:println(message);
+        string exit = io:readln("Press 0 to go back: ");
+
+        if (exit === "0") {
+            error? mainResult = main();
+            if mainResult is error {
+                io:println("Error, You can't go back.");
+            }
+        }
+    }
+}
+
 public function deleteLecturer(http:Client http, string staffNumber) returns error? {
     if (http is http:Client) {
         string message = check http->/deleteLecturerByStaffNumber.delete(staffNumber = staffNumber);
