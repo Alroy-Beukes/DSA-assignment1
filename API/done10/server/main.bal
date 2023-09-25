@@ -85,8 +85,16 @@ service /lecturerapp on new http:Listener(6100) {
     }
 
 
-    resource function get lecturersByOfficeNumber(string officeNumber) returns Lecturer[] {
-    
-    }
+resource function get lecturersByOfficeNumber(string officeNumber) returns Lecturer[] {
+        Lecturer[] matchingLecturers = [];
 
+        foreach var lecturer in lecturers {
+            if (officeNumber == lecturer.officeNumber) {
+                matchingLecturers.push(lecturer);
+            }
+        }
+
+        return matchingLecturers;
+    }
+    
 }
