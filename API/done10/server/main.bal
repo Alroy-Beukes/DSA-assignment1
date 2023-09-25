@@ -64,9 +64,26 @@ service /lecturerapp on new http:Listener(6100) {
         return string `${removedLecturer.staffName} deleted successfully`;
     }
 
-    resource function get lecturersByCourseCode(string courseCode) returns Lecturer[] {
+     resource function get lecturersByCourseCode(string courseCode) returns Lecturer[] {
+        Lecturer[] matchingLecturers = [];
 
+        foreach var lecturer in lecturers {
+            boolean hasMatchingCourse = false;
+            foreach var course in lecturer.courses {
+                if (courseCode == course[1]) {
+                    hasMatchingCourse = true;
+                    break; // Break out of the inner loop once a match is found
+                }
+            }
+
+            if (hasMatchingCourse) {
+                matchingLecturers.push(lecturer);
+            }
+        }
+
+        return matchingLecturers;
     }
+
 
     resource function get lecturersByOfficeNumber(string officeNumber) returns Lecturer[] {
     
