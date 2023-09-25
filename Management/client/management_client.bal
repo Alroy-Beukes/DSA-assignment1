@@ -1,9 +1,207 @@
-import ballerina/io;
+ import ballerina/io;
+ import ballerina/uuid;
 
-ManagementClient ep = check new ("http://localhost:9090");
+
+// Creates a gRPC client to interact with the remote server.
+ManagementClient ep = check new ("http://localhost:9091");
+ 
 
 public function main() returns error? {
 
+    io:println(MainMenu());
+    
+    
+}
+
+
+
+function MainMenu() returns string|error {
+    io:println("Learning Management System");
+
+    io:println("The two types of users: ");
+
+    io:println("1. Student");
+    io:println("2. Librarian");
+
+    string userType = io:readln("Select the number that belongs to the type of user you are: ");
+
+    if (userType == "1") {
+        return studentMenu();
+    } else if (userType == "2") {
+        return Menu();    
+    }
+   
+    string input =io:readln("Select a number_");
+
+    if (input == "1") {
+        return Login();
+    }
+
+    else {
+        return Register();
+    }
+
+    }
+    
+
+
+function Register() returns string|error {
+
+    string UserId = io:readln("Enter User ID...");
+    string Name = io:readln("Enter User Name...");
+    string profile = io:readln("Enter Profile...");
+
+    User theUser = {
+        userId: UserId,
+        name: Name,
+        accountType: profile
+    };
+
+    string addedUser = check ep->createUser(theUser);
+
+    io:println(addedUser);
+
+    string input = io:readln("\n\nEnter (1) to return to Exit");
+
+    if input == "1" {
+        return Login();
+    }
+
+    return addedUser;
+
+}
+
+function Login() returns string|error {
+
+    io:println("<<Login Menu>>");
+
+    io:println("\n\n1)Student");
+    io:println("2)Librarian");
+
+    string input = io:readln("\n\nEnter user type: ");
+
+    if (input == "1") {
+        
+        return studentMenu();
+    }
+
+    else {
+        return Menu();
+    }
+}    
+ 
+
+function studentMenu() returns string|error {
+ 
+        io:println("1) Get Available Books");
+        io:println("2) Locate Book by ISBN");
+        io:println("3) Borrow a Book");
+
+        string input = io:readln("choose a Number__");
+
+        if (input == "1") {
+
+            string|error result = availableBook();
+
+            return result;
+
+        }
+
+        if (input == "2") {
+
+            string|error result = LocateBookByISBN();
+
+            return result;
+
+        }
+
+        if (input == "3") {
+
+            string|error result = borrowedBook();
+
+            return result;
+
+        }
+    
+
+    string inputx = io:readln("\n\nEnter (1) to return to Exit");
+
+    if input == "1" {
+        return Login();
+    }
+
+    return "Thank you for using the library";
+
+
+}
+
+function Menu() returns string|error {
+   
+   io:println("1) Add a User");
+   io:println("2) Add a Book");
+   io:println("3) Update a Book");
+   io:println("4) Remove a Book");
+   io:println("5) Get Available Books");
+   io:println("6) Locate Book by ISBN");
+   io:println("7) Borrow a Book");
+
+  string input = io:readln("choose a Number__");
+
+  if(input=="1") {
+
+   string|error user = createUser();
+
+   return user;
+
+  }
+
+ if(input=="2") {
+
+   string|error result = addBook();
+
+   return result;
+  }
+
+ if(input=="3") {
+
+   Book|error result = updateBook();
+
+   return "updated";
+
+  }
+
+  if(input=="4") {
+
+   string|error result = removeBook();
+
+   return result;
+
+  }
+
+    if(input == "5")    {
+
+        string|error result = availableBook();
+
+        return result;
+
+    }
+
+    if (input == "6") {
+
+        string|error result = LocateBookByISBN();
+
+        return result;
+
+    }
+
+    if (input == "7") {
+
+        string|error result = borrowedBook();
+
+        return result;
+    }
+    return "Invalid selection try again";
+}
     function addBook() returns string|error {
 
         string Title = io:readln("Enter Book Title: ");
