@@ -313,6 +313,25 @@ function removeBook() returns string|error {
     return removed;
 }
 
+function LocateBookByISBN() returns string|error {
+
+string  isbn = io:readln("Enter The Books ISBN: ");
+
+string theBook = check ep->locateBook(isbn);
+
+io:println( theBook);
+
+    string input = io:readln("\n\nEnter (1) to return to Exit: ");
+
+    if input == "1" {
+        return Login();
+    }
+
+return theBook;
+
+}
+
+
 function borrowedBook() returns string|error {
 
   io:println("Borrow a Book Menu");
