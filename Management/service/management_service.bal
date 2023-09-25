@@ -25,8 +25,12 @@ service "Management" on ep {
 
         return "You added " + book.isbn + " ";
     }
-    remote function createUser(User value) returns User|error {
+
+    remote function createUser(User user) returns User|error {
+        self.users.add(user);
+        return "New user added: "+user.name;
     }
+
     remote function updateBook(Book value) returns Book|error {
     }
     remote function removeBook(string value) returns string|error {
