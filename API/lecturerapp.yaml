@@ -1,7 +1,7 @@
 openapi: '3.0.2'
 
 info:
-  title: API Title
+  title: Lecturer App
   description: Sample server for Course and lecturer App
   termsOfService: http://www.example.com/terms/
   contact:
@@ -13,19 +13,19 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0.html  
   version: '1.0'
 servers:
-  - url: http://localhost:8080/vle/api/v1
+  - url: http://localhost:6100
 
 paths:
-  /AddStaff:
+  /AddLecturer:
     post:
-     summary: Add a new staff member
-     description: create staff member with name, staff number, title, office number and courses
-     operationId: createStaff
+     summary: Add a new lecturer
+     description: create lecturer with name, staff number, title, office number and courses
+     operationId: createLecturer
      requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Staff"
+              $ref: "#/components/schemas/Lecturer"
      responses:
         "200":
           description: OK
@@ -50,7 +50,7 @@ paths:
                 description: Successfully Received All Course
                 type: array
                 items:
-                  $ref: "#/components/schemas/Staff"
+                  $ref: "#/components/schemas/Lecturer"
         default:
           $ref: "#/components/responses/ErrorResponse"
 
@@ -71,14 +71,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Staff'
+              $ref: '#/components/schemas/Lecturer'
      responses:
         '200':
           description: Lecturer is updated successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Staff'
+                $ref: '#/components/schemas/Lecturer'
         default:
           $ref: "#/components/responses/ErrorResponse"
 
@@ -100,7 +100,7 @@ paths:
             application/json:
               schema:
                 description: Successfully Received Staff
-                $ref: "#/components/schemas/Staff"
+                $ref: "#/components/schemas/Lecturer"
         default:
           $ref: "#/components/responses/ErrorResponse"
 
@@ -122,7 +122,7 @@ paths:
             application/json:
               schema:
                 description: Successfully Removed Staff
-                $ref: "#/components/schemas/Staff"
+                $ref: "#/components/schemas/Lecturer"
         default:
           $ref: "#/components/responses/ErrorResponse" 
 
@@ -130,7 +130,7 @@ paths:
     get:
       summary: Get Staff with filtering for Courses
       parameters: 
-        - name: name
+        - name: CourseCode
           in: query 
           description: Filter staff by courses
           required: false
@@ -148,7 +148,7 @@ paths:
             application/json:
               schema:
                 description: Successfully returned Staff
-                $ref: "#/components/schemas/Staff"
+                $ref: "#/components/schemas/Lecturer"
         default:
           $ref: "#/components/responses/ErrorResponse"     
              
@@ -188,7 +188,7 @@ components:
            type: number
            description: Unique ID of the office
 
-     Staff:
+     Lecturer:
        type: object
        description: Essential components to identify lecturer
        properties:
