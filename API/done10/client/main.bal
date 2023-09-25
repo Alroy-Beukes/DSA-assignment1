@@ -123,3 +123,20 @@ function addCourses() returns [string, string, string][] {
     
     return courses;
 }
+
+public function create(http:Client http, Lecturer lecturer) returns error? {
+    if (http is http:Client) {
+        // Serialize the lecturer object to JSON
+        string message = lecturer.toString(); // Assuming a toString() function for your Lecturer record
+        message = check http->/createLecturer.post(lecturer);
+        io:println(message);
+        string exit = io:readln("Press 0 to go back: ");
+
+        if (exit === "0") {
+            error? mainResult = main();
+            if mainResult is error {
+                io:println("Error, You can't go back.");
+            }
+        }
+    }
+}
