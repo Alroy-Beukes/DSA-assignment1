@@ -13,9 +13,14 @@ table<Lecturer> key(staffNumber) lecturers = table [];
 
 service /lecturerapp on new http:Listener(6100) {
     resource function post createLecturer(Lecturer lecturer) returns string {
-    
+        io:println(lecturer);
+        error? err = lecturers.add(lecturer);
+        if (err is error) {
+            return string `Error, ${err.message()}`;
+        }
+        return string `${lecturer.staffName} saved successfully`;
     }
-
+}
     resource function get allLecturers() returns table<Lecturer> {
         
     }
