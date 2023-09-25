@@ -21,8 +21,23 @@ service /lecturerapp on new http:Listener(6100) {
         return string `${lecturer.staffName} saved successfully`;
     }
 
-    resource function get allLecturers() returns table<Lecturer> {
-        
+     resource function get allLecturers() returns table<Lecturer> {
+        return lecturers;
+    }
+
+    resource function put updateLecturere(Lecturer lecturer) returns string {
+        io:println(lecturer);
+        return string `${lecturer.staffName} updated successfully`;
+    }
+
+    resource function get lecturerInfo(string staffNumber) returns Lecturer|string {
+        foreach Lecturer lecturer in lecturers {
+            if (lecturer.staffNumber === staffNumber) {
+                return lecturer;
+            }
+        }
+
+        return staffNumber + " is invalid";
     }
 
     resource function put updateLecturer(Lecturer lecturer) returns string {
