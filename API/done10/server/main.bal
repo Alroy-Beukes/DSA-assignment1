@@ -9,6 +9,7 @@ type Lecturer readonly & record {
     [string, string, string][] courses;
 };
 
+table<Lecturer> key(staffNumber) lecturers = table [];
 
 service /lecturerapp on new http:Listener(6100) {
     resource function post createLecturer(Lecturer lecturer) returns string {
