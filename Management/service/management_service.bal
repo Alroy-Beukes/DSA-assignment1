@@ -10,6 +10,14 @@ service "Management" on ep {
     private table<User> key(userId) users;
     private table<Borrowed_books> key(isbn) borrowedBooks;
 
+    function  init() {
+        
+        self.books = table[];
+        self.users = table[];
+        self.borrowedBooks = table [];
+
+     }
+
     remote function addBook(Book value) returns string|error {
     }
     remote function createUser(User value) returns User|error {
