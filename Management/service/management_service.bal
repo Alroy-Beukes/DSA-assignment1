@@ -31,7 +31,42 @@ service "Management" on ep {
         return "New user added: "+user.name;
     }
 
-    remote function updateBook(Book value) returns Book|error {
+    remote function updateBook(Book partBook) returns Book?|string {
+        
+         Book? theBook = self.books[partBook.isbn];
+        
+        if theBook == (){
+            return "Error book with isbn number "+partBook.isbn+" not found";
+            
+        }else{
+            string? title = partBook?.title;
+            if title != (){
+                theBook.title = title;
+            }
+
+            string? author = partBook?.author_1;
+            if author != () {
+                theBook.author_1 = author;
+            }
+
+            string? author2 = partBook?.author_2;
+            if author != () {
+                theBook.author_2 = author;
+            }
+
+            string? location = partBook?.location;
+            if location != () {
+                theBook.location = location;
+            }
+
+            string? status = partBook?.status;
+            if status != () {
+                theBook.status = status;
+            }
+        }
+        
+        return theBook;
+
     }
     remote function removeBook(string isbn) returns string|error {
         Book? theBook = self.books[isbn];
