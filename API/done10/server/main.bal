@@ -21,9 +21,10 @@ service /lecturerapp on new http:Listener(6100) {
         return string `${lecturer.staffName} saved successfully`;
     }
 
-     resource function get allLecturers() returns table<Lecturer> {
+    resource function get allLecturers() returns table<Lecturer> {
         return lecturers;
     }
+
 
     resource function put updateLecturere(Lecturer lecturer) returns string {
         io:println(lecturer);
