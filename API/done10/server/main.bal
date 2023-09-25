@@ -9,6 +9,8 @@ type Lecturer readonly & record {
     [string, string, string][] courses;
 };
 
+type staffName string;
+
 table<Lecturer> key(staffNumber) lecturers = table [];
 
 service /lecturerapp on new http:Listener(6100) {
