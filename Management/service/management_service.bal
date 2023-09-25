@@ -18,7 +18,12 @@ service "Management" on ep {
 
      }
 
-    remote function addBook(Book value) returns string|error {
+    remote function addBook(Book book) returns string|error {
+        self.books.add(book);
+
+        io:println("Book added: ISBN - " + book.isbn);
+
+        return "You added " + book.isbn + " ";
     }
     remote function createUser(User value) returns User|error {
     }
