@@ -33,7 +33,17 @@ service "Management" on ep {
 
     remote function updateBook(Book value) returns Book|error {
     }
-    remote function removeBook(string value) returns string|error {
+    remote function removeBook(string isbn) returns string|error {
+        Book? theBook = self.books[isbn];
+         
+        Book? newBooks=self.books.remove(isbn);
+    
+        if newBooks == () {
+            return  "No book removed";
+        } else {
+            // return newBooks.toString();
+            return self.books.toString();
+        }
     }
     remote function availableBooks() returns string|error {
     }
