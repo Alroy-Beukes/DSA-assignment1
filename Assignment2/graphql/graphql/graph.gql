@@ -1,0 +1,49 @@
+# Represents a user in the system (HoD, Supervisor, Employee)
+type User {
+
+}
+
+# Represents authentication information for a user
+type Auth {
+
+}
+
+# Enum to distinguish user roles
+enum UserRole {
+
+}
+
+# Represents a department
+type Department {
+
+}
+
+# Represents objectives for a department
+type DepartmentObjective {
+
+}
+
+# Represents Key Performance Indicators for users
+type KPI {
+
+}
+
+# Supervisor's grading for an employee's KPI
+type SupervisorGrade {
+
+}
+
+# Feedback provided by an employee about their supervisor
+type EmployeeSupervisorFeedback {
+
+}
+
+# Queries
+type Query {
+
+}
+
+# Mutations
+type Mutation {
+
+}
